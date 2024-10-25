@@ -35,6 +35,7 @@ void FLProgNST1001::pool()
         _isReadMode = false;
         _raw = _count;
         _count = 0;
+        _temperature = filterNST.filtered(getTemperature());
     }
 }
 
