@@ -1,0 +1,20 @@
+#######################################
+# Syntax Coloring Map
+#######################################
+#######################################
+# # Datatypes (KEYWORD1)
+#######################################
+FLProgNST1001	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+getRAW	KEYWORD2
+getTemperature	KEYWORD2
+interrupt	KEYWORD2
+interruptNumber	KEYWORD2
+pool	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
