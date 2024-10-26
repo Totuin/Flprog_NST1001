@@ -17,7 +17,7 @@ void loop()
     if (RT_HW_Base.shed.eventSec)
     {
         RT_HW_console.outTest(String(F("T:")), sensor.getTemperature(), ';');
-        RT_HW_console.outTest(String(F(" FRAW:")), sensor.getFilteredRaw(), ';');
+        RT_HW_console.outTest(String(F(" FT:")), sensor.getFilteredTemperature(), ';');
         RT_HW_console.outTest(String(F(" RAW:")), sensor.getRAW());
     }
     RT_HW_Base.pinDigitalWrite(idPinLed, pinLed, RT_HW_Base.shed.blink500); //--Вывод  на пин;

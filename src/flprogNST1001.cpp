@@ -1,47 +1,18 @@
 #include "flprogNST1001.h"
 
+/*
+FLProgNST1001 *pointerToClassFLProgNST1001; // declare a pointer to testLib class
+
+static void outsideFLProgNST1001InterruptHandler(void) // define global handler
+{
+    pointerToClassFLProgNST1001->interrupt(); // calls class member handler
+}
+*/
+
 FLProgNST1001::FLProgNST1001(int16_t pin, bool extPower)
 {
     _pin = pin;
-    _extPower = extPower;
-}
-
-void FLProgNST1001::pool()
-{
-    if (!_isInit)
-    {
-        init();
-        return;
-    }
-    if (!_isReadMode)
-    {
-        return;
-    }
-    if (!_oldIsReadMode)
-    {
-        _oldIsReadMode = true;
-        _startReadTime = millis();
-        return;
-    }
-    if (_hasNewImpulse)
-    {
-        _startReadTime = millis();
-        _hasNewImpulse = false;
-        return;
-    }
-    if (flprog::isTimer(_startReadTime, 5))
-    {
-        _oldIsReadMode = false;
-        _isReadMode = false;
-        _raw = _count;
-        _count = 0;
-        _temperature = filterNST.filtered(getTemperature());
-    }
-}
-
-void FLProgNST1001::init()
-{
-    if (_extPower)
+    if (extPower)
     {
         pinMode(_pin, INPUT);
     }
@@ -49,14 +20,17 @@ void FLProgNST1001::init()
     {
         pinMode(_pin, INPUT_PULLUP);
     }
-    _isInit = true;
 }
 
 void FLProgNST1001::interrupt(void)
 {
+    if (flprog::isTimer(_lastInterruptTime, 10))
+    {
+        _raw = _count;
+        _count = 0;
+    }
     _count++;
-    _isReadMode = true;
-    _hasNewImpulse = true;
+    _lastInterruptTime = millis();
 }
 
 float FLProgNST1001::getTemperature()
@@ -74,3 +48,4 @@ float FLProgNST1001::getTemperature()
     temp = temp + ((100 - temp) * 0.012);
     return temp;
 }
+
